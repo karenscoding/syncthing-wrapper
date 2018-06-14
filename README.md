@@ -1,9 +1,9 @@
 # syncthing-wrapper
 Java wrapper to use the Syncthing REST API
 
-This code provides the java implementation for connecting to Syncthings REST API.
+This code provides the java implementation for connecting to Syncthings REST API. It was developed as a Proof of Concept.
 
-To run the tests, use the following:
+There are a few unit tests.  To run the tests, use the following:
 
 * install syncthing and take note of the API key and device ID
 * set the tests API key and device ID accordingly
