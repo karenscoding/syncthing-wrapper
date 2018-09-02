@@ -183,8 +183,6 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null;
 		String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
     		initialiseErrorMessaging();
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.GET_SYSTEM_BROWSE_URL);
@@ -193,9 +191,11 @@ public class SyncthingRestAPIHandler {
     			// Get the json response
     			String json = response.getJson();
     			//logger.debug(JSON_OUTPUT + json);
-    			// Convert the json string to String[] object
+    			ObjectMapper objectMapper = new ObjectMapper();
+            	
+        		// Convert the json string to String[] object
     			String[] directories = objectMapper.readValue(json, String[].class);
-    			// Check the  is set
+    			// Check the directories has been set
     			if (directories != null) {
     				//logger.debug("directories " + Arrays.toString(directories));
     				
@@ -223,8 +223,6 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null;
 		String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-    		objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
     		
     		initialiseErrorMessaging();
     		MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
@@ -236,13 +234,13 @@ public class SyncthingRestAPIHandler {
     			// Get the json response
     			String json = response.getJson();
     			//logger.debug(JSON_OUTPUT + json);
-    			
+    			ObjectMapper objectMapper = new ObjectMapper();
+        		objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+        		
     			// Convert the json string to String[] object
     			String[] directories = objectMapper.readValue(json, String[].class);
     			// Check the  is set
     			if (directories != null) {
-    				//logger.debug("directories " + Arrays.toString(directories));
-    				
     				// Add the Directories to the response
     				response.addResponseObjects(DIRECTORIES_KEY, directories);
     				
@@ -266,8 +264,6 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null;
 		String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-    		objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
     		initialiseErrorMessaging();
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.GET_SYSTEM_CONFIG_URL);
@@ -276,7 +272,9 @@ public class SyncthingRestAPIHandler {
     			// Get the json response
     			String json = response.getJson();
     			//logger.debug("getSystemConfig " + JSON_OUTPUT + json);
-    			
+    			ObjectMapper objectMapper = new ObjectMapper();
+        		objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+        		
     			// Convert the json string to SystemConfig object
     			Config systemConfig = objectMapper.readValue(json, Config.class);
     			
@@ -306,8 +304,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null;
 		String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.GET_SYSTEM_CONFIG_INSYNC_URL);
@@ -317,7 +314,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			//logger.debug(JSON_OUTPUT + json);
     			
-    			// Convert the json string to ConfigInSync object
+    			ObjectMapper objectMapper = new ObjectMapper();
+            	// Convert the json string to ConfigInSync object
     			SystemConfigInSync configInSync = objectMapper.readValue(json, SystemConfigInSync.class);
     			
     			// Check the  is set
@@ -347,8 +345,6 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null;
 		String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-    		objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
     		initialiseErrorMessaging();
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.POST_SYSTEM_CONFIG_URL);
@@ -375,8 +371,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null;
 		String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.GET_SYSTEM_CONNECTIONS_URL);
@@ -385,7 +380,8 @@ public class SyncthingRestAPIHandler {
     			// Get the json response
     			String json = response.getJson();
     			//logger.debug(JSON_OUTPUT + json);
-    			// Convert the json string to SystemConnections object
+    			ObjectMapper objectMapper = new ObjectMapper();
+            	// Convert the json string to SystemConnections object
     			SystemConnections systemConnections = objectMapper.readValue(json, SystemConnections.class);
     			
     			// Check the  is set
@@ -413,8 +409,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null;
 		String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.GET_SYSTEM_DEBUG_URL);
@@ -423,7 +418,8 @@ public class SyncthingRestAPIHandler {
     			// Get the json response
     			String json = response.getJson();
     			//logger.debug(JSON_OUTPUT + json);
-    			// Convert the json string to SystemDebugResponse object
+    			ObjectMapper objectMapper = new ObjectMapper();
+            	// Convert the json string to SystemDebugResponse object
     			SystemDebugResponse systemDebug = objectMapper.readValue(json, SystemDebugResponse.class);
     			
     			// Check the  is set
@@ -443,10 +439,7 @@ public class SyncthingRestAPIHandler {
 		return response;
 	}
 
-	protected void initialiseErrorMessaging() {
-		syncthingRestAPIConnector.setLocale(locale);
-		syncthingRestAPIConnector.setMessageSource(messageSource);
-	}
+	
 	
 	/** 
 	 * POST /rest/system/debug
@@ -487,8 +480,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null;
 		String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.GET_SYSTEM_DISCOVERY_URL);
@@ -498,7 +490,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			//logger.debug(JSON_OUTPUT + json);
     			
-    			// Convert the json string to systemDiscovery object
+    			ObjectMapper objectMapper = new ObjectMapper();
+            	// Convert the json string to systemDiscovery object
     			Map<String, Addresses> systemDiscovery = objectMapper.readValue(json, new TypeReference<Map<String, Addresses>>(){});
     			
     			// Check the systemDiscovery is set
@@ -581,8 +574,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null;
 		String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.GET_SYSTEM_ERROR_URL);
@@ -592,7 +584,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			//logger.debug(JSON_OUTPUT + json);
     			
-    			// Convert the json string to SystemErrors object
+    			ObjectMapper objectMapper = new ObjectMapper();
+            	// Convert the json string to SystemErrors object
     			SystemErrors systemErrors = objectMapper.readValue(json, SystemErrors.class);
     			
     			// Check the systemErrors is set
@@ -646,8 +639,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null;
 		String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.GET_SYSTEM_LOG_URL);
@@ -657,7 +649,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			//logger.debug(JSON_OUTPUT + json);
     			
-    			// Convert the json string to SystemLog object
+    			ObjectMapper objectMapper = new ObjectMapper();
+            	// Convert the json string to SystemLog object
     			SystemLog systemLog = objectMapper.readValue(json, SystemLog.class);
     			
     			// Check the  is set
@@ -738,8 +731,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null;
 		String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.GET_SYSTEM_PING_URL);
@@ -749,7 +741,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			//logger.debug(JSON_OUTPUT + json);
     			
-    			// Convert the json string to SystemPingPong object
+    			ObjectMapper objectMapper = new ObjectMapper();
+            	// Convert the json string to SystemPingPong object
     			SystemPingPong systemPingPong = objectMapper.readValue(json, SystemPingPong.class);
     			
     			// Check the  is set
@@ -776,8 +769,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null;
 		String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.GET_SYSTEM_PING_URL);
@@ -787,7 +779,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			//logger.debug(JSON_OUTPUT + json);
     			
-    			// Convert the json string to SystemPingPong object
+    			ObjectMapper objectMapper = new ObjectMapper();
+            	// Convert the json string to SystemPingPong object
     			SystemPingPong systemPingPong = objectMapper.readValue(json, SystemPingPong.class);
     			
     			// Check the systemPingPong is set
@@ -817,8 +810,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null;
 		String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.POST_SYSTEM_RESET_URL);
@@ -828,7 +820,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			//logger.debug(JSON_OUTPUT + json);
     			
-    			// Convert the json string to SystemReset object
+    			ObjectMapper objectMapper = new ObjectMapper();
+            	// Convert the json string to SystemReset object
     			SystemOk systemReset = objectMapper.readValue(json, SystemOk.class);
     			
     			// Check the systemReset is set
@@ -855,8 +848,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null;
 		String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.POST_SYSTEM_RESTART_URL);
@@ -866,7 +858,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			//logger.debug(JSON_OUTPUT + json);
     			
-    			// Convert the json string to SystemReset object
+    			ObjectMapper objectMapper = new ObjectMapper();
+            	// Convert the json string to SystemReset object
     			SystemOk systemReset = objectMapper.readValue(json, SystemOk.class);
     			
     			// Check the systemReset is set
@@ -971,8 +964,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null;
 		String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.GET_SYSTEM_STATUS_URL);
@@ -982,7 +974,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			//logger.debug(JSON_OUTPUT + json);
     			
-    			// Convert the json string to SystemStatus object
+    			ObjectMapper objectMapper = new ObjectMapper();
+            	// Convert the json string to SystemStatus object
     			SystemStatus systemStatus = objectMapper.readValue(json, SystemStatus.class);
     			
     			// Check the  is set
@@ -1012,8 +1005,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null;
 		String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.GET_SYSTEM_UPGRADE_URL);
@@ -1023,7 +1015,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			//logger.debug(JSON_OUTPUT + json);
     			
-    			// Convert the json string to SystemUpgrade object
+    			ObjectMapper objectMapper = new ObjectMapper();
+            	// Convert the json string to SystemUpgrade object
     			SystemUpgrade systemUpgrade = objectMapper.readValue(json, SystemUpgrade.class);
     			
     			// Check the  is set
@@ -1078,8 +1071,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null; 
     	String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.GET_SYSTEM_VERSION_URL);
@@ -1089,7 +1081,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			//logger.debug(JSON_OUTPUT + json);
     			
-    			// Convert the json string to Version object
+    			ObjectMapper objectMapper = new ObjectMapper();
+            	// Convert the json string to Version object
     			Version version = objectMapper.readValue(json, Version.class);
     			
     			// Check the  is set
@@ -1112,6 +1105,7 @@ public class SyncthingRestAPIHandler {
 
 	
 	//Database Endpoints
+	
 	/** 
 	 * GET /rest/db/browse
 	 * Returns the directory tree of the global model. Directories are always 
@@ -1128,8 +1122,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null; 
     	String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
     		if (databaseBrowseRequest.getFolder() != null) {
@@ -1146,7 +1139,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			//logger.debug(JSON_OUTPUT + json);
     			if (json != null) {
-	    			// Convert the json string
+    				ObjectMapper objectMapper = new ObjectMapper();
+    	        	// Convert the json string
     				Map<String, Object[]> databaseBrowseResponse = 
     						objectMapper.readValue(json, new TypeReference<Map<String, Object[]>>(){});
 	    			
@@ -1177,8 +1171,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null; 
     	String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
     		if (databaseCompletionRequest.getDevice() != null) {
@@ -1196,7 +1189,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			//logger.debug(JSON_OUTPUT + json);
     			if (json != null) {
-	    			// Convert the json string to DatabaseCompletionResponse object
+    				ObjectMapper objectMapper = new ObjectMapper();
+    	        	// Convert the json string to DatabaseCompletionResponse object
 	    			DatabaseCompletionResponse databaseCompletionResponse = objectMapper.readValue(json, DatabaseCompletionResponse.class);
 	    			
 	    			// Check the DatabaseCompletionResponse is set
@@ -1228,12 +1222,11 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null; 
     	String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
     		if (fileFolderRequest.getFolder() != null) {
-    			queryParams.add(FOLDER_KEY, fileFolderRequest.getFolder());
+    			queryParams.add(FOLDER_KEY, fileFolderRequest.getFolder().replaceAll(" ", "%20"));
     		}
     		if (fileFolderRequest.getFile() != null) {
     			queryParams.add(FILE_KEY, fileFolderRequest.getFile());
@@ -1242,7 +1235,8 @@ public class SyncthingRestAPIHandler {
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.GET_DATABASE_FILE_URL);
             response = syncthingRestAPIConnector.getRequest(restUrl, apiKey, username, password, queryParams);
             if (response != null && response.getStatusCode() == HttpStatus.SC_OK) {
-    			// Get the json response
+            	ObjectMapper objectMapper = new ObjectMapper();
+            	// Get the json response
     			String json = response.getJson();
     			//logger.debug(JSON_OUTPUT + json);
     			if (json != null) {
@@ -1282,13 +1276,12 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null; 
     	String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
     		MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
     		if (databaseIgnoresRequest.getFolder() != null) {
-    			queryParams.add(FOLDER_KEY, databaseIgnoresRequest.getFolder());
+    			queryParams.add(FOLDER_KEY, databaseIgnoresRequest.getFolder().replaceAll(" ", "%20"));
     		}
     		if (databaseIgnoresRequest.getExpanded() != null) {
     			List<String> expanded = databaseIgnoresRequest.getExpanded();
@@ -1305,7 +1298,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			//logger.debug(JSON_OUTPUT + json);
     			if (json != null) {
-	    			// Convert the json string to DatabaseIgnoresResponse object
+    				ObjectMapper objectMapper = new ObjectMapper();
+    	        	// Convert the json string to DatabaseIgnoresResponse object
 	    			DatabaseIgnores databaseIgnoresResponse = objectMapper.readValue(json, DatabaseIgnores.class);
 	    			
 	    			// Check the DatabaseIgnoresResponse is set
@@ -1338,13 +1332,12 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null; 
     	String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
     		MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
     		if (folderId != null) {
-    			queryParams.add(FOLDER_KEY, folderId);
+    			queryParams.add(FOLDER_KEY, folderId.replaceAll(" ", "%20"));
     		}
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.POST_DATABASE_IGNORES_URL);
@@ -1355,7 +1348,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			//logger.debug(JSON_OUTPUT + json);
     			if (json != null) {
-	    			// Convert the json string to DatabaseIgnoresResponse object
+    				ObjectMapper objectMapper = new ObjectMapper();
+    	        	// Convert the json string to DatabaseIgnoresResponse object
 	    			DatabaseIgnores databaseIgnoresResponse = objectMapper.readValue(json, DatabaseIgnores.class);
 	    			
 	    			// Check the DatabaseIgnoresResponse is set
@@ -1400,8 +1394,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null; 
     	String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
     		MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
@@ -1424,7 +1417,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			//logger.debug(JSON_OUTPUT + json);
     			if (json != null) {
-	    			// Convert the json string to FilesDownloading object
+    				ObjectMapper objectMapper = new ObjectMapper();
+    	        	// Convert the json string to FilesDownloading object
 	    			FilesDownloading filesDownloading = objectMapper.readValue(json, FilesDownloading.class);
 	    			
 	    			// Check the FilesDownloading is set
@@ -1485,8 +1479,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null; 
     	String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
     		MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
@@ -1505,7 +1498,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			logger.debug(JSON_OUTPUT + json);
     			if (json != null) {
-	    			// Convert the json string to FilesDownloading object
+    				ObjectMapper objectMapper = new ObjectMapper();
+    	        	// Convert the json string to FilesDownloading object
 	    			FilesDownloading filesDownloading = objectMapper.readValue(json, FilesDownloading.class);
 	    			
 	    			// Check the FilesDownloading is set
@@ -1586,8 +1580,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null; 
     	String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
     		MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
@@ -1603,7 +1596,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			logger.debug(JSON_OUTPUT + json);
     			if (json != null) {
-	    			// Convert the json string to FolderStatus object
+    				ObjectMapper objectMapper = new ObjectMapper();
+    	        	// Convert the json string to FolderStatus object
 	    			FolderStatus folderStatus = objectMapper.readValue(json, FolderStatus.class);
 	    			
 	    			// Check the FolderStatus is set
@@ -1626,6 +1620,7 @@ public class SyncthingRestAPIHandler {
 	}
 	
 	//Event Endpoints
+	
 	/** 
 	 * GET /rest/events
 	 * Syncthing provides a simple long polling interface for 
@@ -1665,8 +1660,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null; 
     	String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
     		MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
@@ -1691,7 +1685,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			logger.debug(JSON_OUTPUT + json);
     			if (json != null) {
-	    			// Convert the json string to GeneralEvent object
+    				ObjectMapper objectMapper = new ObjectMapper();
+    	        	// Convert the json string to GeneralEvent object
 	    			GeneralEvent[] generalEvent = objectMapper.readValue(json, GeneralEvent[].class);
 	    			
 	    			// Check the GeneralEvent is set
@@ -1752,8 +1747,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null; 
     	String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
     		MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
@@ -1778,7 +1772,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			logger.debug(JSON_OUTPUT + json);
     			if (json != null) {
-	    			// Convert the json string to Custom event object
+    				ObjectMapper objectMapper = new ObjectMapper();
+    	        	// Convert the json string to Custom event object
 	    			AbstractEvent[] customEvent = EventFactory.getEventsByType(json, eventType);
 	    			
 	    			// Check the customEvent is set
@@ -1815,8 +1810,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null; 
     	String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
     		MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
@@ -1838,7 +1832,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			logger.debug(JSON_OUTPUT + json);
     			if (json != null) {
-	    			// Convert the json string to DiskEvent object
+    				ObjectMapper objectMapper = new ObjectMapper();
+    	        	// Convert the json string to DiskEvent object
 	    			GeneralEvent[] diskEvent = objectMapper.readValue(json, GeneralEvent[].class);
 	    			
 	    			// Check the DiskEvent is set
@@ -1870,8 +1865,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null; 
     	String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.GET_STATS_DEVICE_URL);
@@ -1882,7 +1876,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			logger.debug(JSON_OUTPUT + json);
     			if (json != null) {
-	    			// Convert the json string to statisticsDevice object
+    				ObjectMapper objectMapper = new ObjectMapper();
+    	        	// Convert the json string to statisticsDevice object
     				Map<String, StatisticsDevice> statisticsDevices = objectMapper.readValue(json, new TypeReference<Map<String, StatisticsDevice>>(){});
         			
 	    			// Check the StatisticsDevice is set
@@ -1913,8 +1908,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null; 
     	String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.GET_STATS_FOLDER_URL);
@@ -1925,7 +1919,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			logger.debug(JSON_OUTPUT + json);
     			if (json != null) {
-	    			// Convert the json string to statisticsFolders object
+    				ObjectMapper objectMapper = new ObjectMapper();
+    	        	// Convert the json string to statisticsFolders object
     				Map<String, StatisticsFolder> statisticsFolders = 
     						objectMapper.readValue(json, new TypeReference<Map<String, StatisticsFolder>>(){});
         			
@@ -1961,8 +1956,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null; 
     	String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
     		MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
@@ -1979,7 +1973,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			logger.debug(JSON_OUTPUT + json);
     			if (json != null) {
-    				// Convert the json string to DeviceError object
+    				ObjectMapper objectMapper = new ObjectMapper();
+    	        	// Convert the json string to DeviceError object
 	    			DeviceError deviceError = objectMapper.readValue(json, DeviceError.class);
 	    			
 	    			// Check the DeviceError is set
@@ -2010,8 +2005,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null; 
     	String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.GET_SERVICES_LANG_URL);
@@ -2022,7 +2016,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			logger.debug(JSON_OUTPUT + json);
     			if (json != null) {
-    				// Convert the json string to languages object
+    				ObjectMapper objectMapper = new ObjectMapper();
+    	        	// Convert the json string to languages object
 	    			String[] languages = objectMapper.readValue(json, String[].class);
 	    			
 	    			// Check the languages is set
@@ -2053,8 +2048,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null; 
     	String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.GET_SERVICES_RANDOM_STRING_URL);
@@ -2065,7 +2059,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			logger.debug(JSON_OUTPUT + json);
     			if (json != null) {
-    				// Convert the json string to RandomString 
+    				ObjectMapper objectMapper = new ObjectMapper();
+    	        	// Convert the json string to RandomString 
     				RandomString randomString = objectMapper.readValue(json, RandomString.class);
 	    			
 	    			// Check the RandomString is set
@@ -2095,8 +2090,7 @@ public class SyncthingRestAPIHandler {
 		BaseHttpResponse response = null; 
     	String restUrl = null;
     	try {
-    		ObjectMapper objectMapper = new ObjectMapper();
-        	
+    		
     		initialiseErrorMessaging();
     		
         	restUrl = getSyncThingUrl(protocol, syncthingIpAddress, syncthingPortNumber, RestURLEndpoints.GET_SERVICES_REPORT_URL);
@@ -2107,7 +2101,8 @@ public class SyncthingRestAPIHandler {
     			String json = response.getJson();
     			logger.debug(JSON_OUTPUT + json);
     			if (json != null) {
-    				// Convert the json string to ServicesReport 
+    				ObjectMapper objectMapper = new ObjectMapper();
+    	        	// Convert the json string to ServicesReport 
     				ServicesReport servicesReport = objectMapper.readValue(json, ServicesReport.class);
 	    			
 	    			// Check the ServicesReport is set
@@ -2137,16 +2132,16 @@ public class SyncthingRestAPIHandler {
 		for (Folder folder : systemConfig.getFolders()) {
 			String folderId = folder.getId();
 			if (folderId.equals(newFolderId)) {
-				logger.debug("folderId " + folderId);
+				//logger.debug("folderId " + folderId);
 				for (Device device: folder.getDevices()) {
 					String currentDeviceId = device.getDeviceID();
-					logger.debug("currentDeviceId " + currentDeviceId);
+					//logger.debug("currentDeviceId " + currentDeviceId);
 					if (currentDeviceId.equals(deviceId)) {
 						foundDevice = true;
 						break;
 					}
 				}
-				logger.debug("foundDevice " + foundDevice);
+				//logger.debug("foundDevice " + foundDevice);
 				if (!foundDevice) {
 					folder.addDevice(newDevice);
 					
@@ -2216,45 +2211,51 @@ public class SyncthingRestAPIHandler {
 				.replaceAll(SINGLE_SPACE, URL_SPACE_SUBSTITUTION);
 	}
 	
-	protected void logAPIJsonConversionError(BaseHttpResponse response) {
-		logger.error("Unable to retrieve syncthing data");
+	public void logAPIJsonConversionError(BaseHttpResponse response) {
 		String userErrorMessage = MessageSourceUtils.getMessage(
 				messageSource, locale, MessageSourceKeys.API_ERROR_COMMUNICATION_FAILED_KEY, 
 				ErrorMessages.UNABLE_TO_COMMUNICATE_WITH_SERVER, null);
-		response.addUserErrorMessage(userErrorMessage);
+		if (response != null) { 
+			response.addUserErrorMessage(userErrorMessage);
+		}
+		logger.error(userErrorMessage);
+		logger.error("Error retrieving syncthing data ");
 	}
 	
 	protected void logAPIError(BaseHttpResponse response, String restUrl, String error) {
 		if (error != null){
 			logger.error(error);
 		}
-		if (response != null) { 
-			String userErrorMessage = MessageSourceUtils.getMessage(
-					messageSource, locale, MessageSourceKeys.API_ERROR_COMMUNICATION_FAILED_KEY, 
-					ErrorMessages.UNABLE_TO_COMMUNICATE_WITH_SERVER, null);
-			
-			response.addUserErrorMessage(userErrorMessage);
-			logger.error(userErrorMessage);
-			logger.error("Unable to retrieve syncthing data " + restUrl);
-		}
+		String userErrorMessage = MessageSourceUtils.getMessage(
+				messageSource, locale, MessageSourceKeys.API_ERROR_COMMUNICATION_FAILED_KEY, 
+				ErrorMessages.UNABLE_TO_COMMUNICATE_WITH_SERVER, null);
 		
+		if (response != null) { 
+			response.addUserErrorMessage(userErrorMessage);
+		}
+		logger.error(userErrorMessage);
+		logger.error("Error retrieving syncthing data " + restUrl);
 	}
 
 	protected void logAPIException(BaseHttpResponse response, String restUrl, Exception ex) {
 		if (ex != null){
 			logger.error(ex.getMessage(), ex);
 		}
+		String userErrorMessage = MessageSourceUtils.getMessage(
+				messageSource, locale, MessageSourceKeys.API_ERROR_COMMUNICATION_FAILED_KEY, 
+				ErrorMessages.UNABLE_TO_COMMUNICATE_WITH_SERVER, null);
 		if (response != null) { 
-			String userErrorMessage = MessageSourceUtils.getMessage(
-					messageSource, locale, MessageSourceKeys.API_ERROR_COMMUNICATION_FAILED_KEY, 
-					ErrorMessages.UNABLE_TO_COMMUNICATE_WITH_SERVER, null);
-			
 			response.addUserErrorMessage(userErrorMessage);
-			logger.error(userErrorMessage);
-			logger.error("Unable to retrieve syncthing data " + restUrl);
 		}
-		
+		logger.error(userErrorMessage);
+		logger.error("Unable to retrieve syncthing data " + restUrl);
 	}
 	
-	
+	/**
+	 * Sets the locale and message source using for error handling
+	 */
+	protected void initialiseErrorMessaging() {
+		syncthingRestAPIConnector.setLocale(locale);
+		syncthingRestAPIConnector.setMessageSource(messageSource);
+	}
 }
